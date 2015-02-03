@@ -16,7 +16,7 @@
             this.addEvent('click button.btnSecondPage', this.btnSecondPageHandler);
             window.aero.controller.showView('mainSub');
 
-            this.user = {name: 'everyone', firstname: 'mmmm'};
+            this.user = {name: '', firstname: 'Joe', lastname: 'Dalton'};
             this.others = [
                 {
                     name: 'Lebron'
@@ -25,22 +25,22 @@
                     name: 'Kobe'
                 }
             ];
+
             this.domify('others');
 
+            // TO DO: watch full objects
             this.watch('user.firstname', function (value) {
-                console.log(value);
+                //console.log(value);
             });
 
         },
 
         btnHiHandler: function () {
-
-            window.alert('Hi ' + this.user.firstname);
-
             this.others.push({name: 'Michael'});
             this.domify('others');
 
-            this.user.name = 'Teabs';
+            console.log(this.user);
+            this.user.name = this.user.firstname + ' ' + this.user.lastname;
             this.domify('user', 'name');
         },
 

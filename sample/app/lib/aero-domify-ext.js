@@ -35,20 +35,24 @@
         view.watch = function (name, cb) {
 
             var self = this;
-            var element = $('*[data-observable-input="' + name + '"]');
 
-            console.log('watch', element);
+            var element = $('*[data-observable-input^="' + name + '."]');
+            if (element.length === 0) {
+                element = $('*[data-observable-input="' + name + '"]');
+            }
 
-            element.off('keyup');
-            element.on('keyup', function () {
-                var dotIndex = name.indexOf('.');
-                if (dotIndex > -1) {
-                    self[name.substring(0, dotIndex)][name.substring(dotIndex + 1)] = element.val();
-                }
-                else {
-                    self[name] = element.val();
-                }
-                cb(element.val());
+            element.each(function () {
+                $(this).off('keyup');
+                $(this).on('keyup', function () {
+                    var dotIndex = name.indexOf('.');
+                    if (dotIndex > -1) {
+                        self[name.substring(0, dotIndex)][name.substring(dotIndex + 1)] = element.val();
+                    }
+                    else {
+                        self[name][$(this).attr('name')] = $(this).val();
+                    }
+                    cb($(this).val());
+                });
             });
 
         };
